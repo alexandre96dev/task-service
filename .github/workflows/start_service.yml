@@ -1,4 +1,4 @@
-name: Scheduled Stop Railway Service
+name: Scheduled Start Railway Service
 
 on:
   schedule:
@@ -17,8 +17,8 @@ jobs:
           curl -sSL https://railway.app/install.sh | sh
           echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
 
-      - name: Stop Railway Service
+      - name: Start Railway Service
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway down --service task-service
+          railway up --service task-service
