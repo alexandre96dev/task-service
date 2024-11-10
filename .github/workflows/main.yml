@@ -14,29 +14,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0  # Desativar shallow clones para melhorar a análise
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Necessário para obter informações de PR
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy:
     name: Deploy to Railway
     runs-on: ubuntu-latest
-    needs: sonarcloud  # Garantir que o deploy só ocorra após a análise do SonarCloud
+    needs: sonarcloud  # Garante que o deploy só ocorra após a análise do SonarCloud
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         
+      # Instalação do Railway CLI
       - name: Install Railway CLI
         run: |
           curl -sSL https://railway.app/install.sh | sh
-          export PATH="$HOME/.railway/bin:$PATH"
-          
+          echo 'export PATH="$HOME/.railway/bin:$PATH"' >> $GITHUB_ENV
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway up --service task-service
+          railway up --service nome-do-seu-servico
