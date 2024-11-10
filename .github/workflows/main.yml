@@ -18,3 +18,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  deploy:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Setup Railway CLI
+          uses: railwayapp/cli-action@v2
+  
+        - name: Deploy to Railway
+          env:
+            RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          run: |
+            railway up
