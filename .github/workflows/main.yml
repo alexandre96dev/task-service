@@ -40,4 +40,4 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway up --service nome-do-seu-servico
+          railway up --service task-service
